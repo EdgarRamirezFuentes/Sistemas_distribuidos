@@ -42,8 +42,8 @@ class RequestThread implements Runnable {
       while ((line = br.readLine()) != null)
         System.out.println(line);
 
-      int exitVal = proc.waitFor();
-      System.out.println("Process exitValue: " + exitVal);
+      /*int exitVal = proc.waitFor();
+      System.out.println("Process exitValue: " + exitVal);*/
     } catch (Exception e) {
       // Throwing an exception
       System.out.println("Exception is caught");

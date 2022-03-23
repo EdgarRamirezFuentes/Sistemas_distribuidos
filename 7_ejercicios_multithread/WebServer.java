@@ -37,6 +37,7 @@ import java.util.concurrent.Executors;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.ByteArrayOutputStream;
 
 public class WebServer {
     private static final String TASK_ENDPOINT = "/task";
@@ -170,6 +171,14 @@ public class WebServer {
       byte[] responseBytes = searchResponse(requestBytes);
 
       long finishTime = System.nanoTime();
+      byte[] timeBytes = String.format(" and the operation took %d nanoseconds", finishTime - startTime).getBytes();
+
+      // Concatenating the responseBytes and the time the operation took to finish the request
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      outputStream.write(responseBytes);
+      outputStream.write(timeBytes);
+      
+      responseBytes = outputStream.toByteArray();
 
       if (isDebugMode) {
         String debugMessage = String.format("The operation took %d nanosegundos.", finishTime - startTime);
@@ -202,6 +211,6 @@ public class WebServer {
           }
         }
         Matcher matcher = token.matcher(str);
-        return String.format("The token %s appears %d times.\n", token, matcher.results().count()).getBytes();
+        return String.format("The token %s appears %d times", token, matcher.results().count()).getBytes();
     }
 }
